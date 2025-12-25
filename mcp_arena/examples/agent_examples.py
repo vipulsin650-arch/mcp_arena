@@ -4,6 +4,8 @@ Examples demonstrating the SOLID agent architecture usage.
 
 import sys
 import os
+
+from mcp_arena.agent.policies import ContentFilterPolicy
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agent import (

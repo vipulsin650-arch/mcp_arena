@@ -52,6 +52,64 @@ mcp_server = GithubMCPServer(token="your_token")
 # Create tools wrapper
 tool = GithubTools(server=mcp_server)
 tools = tool.get_list_of_tools()
+
+@mcp_server.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers"""
+    return a + b
+
+
+# Add a dynamic greeting resource
+@mcp_servevr.resource("greeting://{name}")
+def get_greeting(name: str) -> str:
+    """Get a personalized greeting"""
+    return f"Hello, {name}!"
+
+@mcp_server.prompt()
+def greet_user(name: str, style: str = "friendly") -> str:
+    """Generate a greeting prompt"""
+    styles = {
+        "friendly": "Please write a warm, friendly greeting",
+        "formal": "Please write a formal, professional greeting",
+        "casual": "Please write a casual, relaxed greeting",
+    }
+
+    return f"{styles.get(style, styles['friendly'])} for someone named {name}."
+
+```
+
+## Advance Documentation
+```
+from mcp.server.fastmcp import Icon
+from mcp_arena.presents.github import GithubMCPServer
+
+# Create an icon from a file path or URL
+icon = Icon(
+    src="icon.png",
+    mimeType="image/png",
+    sizes="64x64"
+)
+
+# Add icons to server
+mcp = GithubMCPServer(
+    "My Server",
+    website_url="https://example.com",
+    token="*******",
+    icons=[icon]
+)
+
+# Add icons to tools, resources, and prompts
+@mcp.tool(icons=[icon])
+def my_tool():
+    """Tool with an icon."""
+    return "result"
+
+@mcp.resource("demo://resource", icons=[icon])
+def my_resource():
+    """Resource with an icon."""
+    return "content"
+
+
 ```
 
 ### With Agent Orchestration

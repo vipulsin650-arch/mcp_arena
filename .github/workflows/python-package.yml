@@ -36,14 +36,9 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Run tests with pytest
+    - name: Run quick tests
       run: |
-        # Run quick tests first (skip GUI tests in CI)
-        python -m pytest tests/test_imports.py::TestImports::test_core_imports -v -m "not nogui"
-        python -m pytest tests/test_dependencies.py -v -m "not nogui"
-        python -m pytest tests/test_installation.py -v -m "not nogui"
-        # Run full test suite (skip GUI tests in CI)
-        python -m pytest tests/ -v --tb=short -m "not nogui"
+        python quick_test.py
 
   publish:
     needs: test
